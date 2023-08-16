@@ -28,6 +28,7 @@ abstract_target "App" do
     pod 'SwiftUIIntrospect', '~> 0.8'
     pod 'Kingfisher', '~> 7.8'
     pod 'Swinject', '2.8.3'
+    pod 'OAuthSwift', '~> 2.2.0'
   end
   
   target "Authorization" do

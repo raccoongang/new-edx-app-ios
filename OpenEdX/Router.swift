@@ -83,7 +83,10 @@ public class Router: AuthorizationRouter,
     }
     
     public func showLoginScreen() {
-        let view = SignInView(viewModel: Container.shared.resolve(SignInViewModel.self)!)
+        let view = SignInView(
+            viewModel: Container.shared.resolve(SignInViewModel.self)!,
+            navigationController: self.navigationController
+        )
         let controller = UIHostingController(rootView: view)
         navigationController.pushViewController(controller, animated: true)
     }
