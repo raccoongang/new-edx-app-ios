@@ -56,7 +56,6 @@ public class SignInViewModel: ObservableObject {
     }
     var oauthswift: OAuth2Swift?
     
-    let config: Config
     let router: AuthorizationRouter
     let config: ConfigProtocol
     private let interactor: AuthInteractorProtocol
@@ -70,7 +69,6 @@ public class SignInViewModel: ObservableObject {
         router: AuthorizationRouter,
         config: ConfigProtocol,
         analytics: AuthorizationAnalytics,
-        config: Config,
         validator: Validator
     ) {
         self.interactor = interactor
