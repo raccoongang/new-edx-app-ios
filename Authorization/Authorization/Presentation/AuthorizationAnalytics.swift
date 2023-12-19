@@ -26,6 +26,7 @@ public enum SocialAuthMethod: String {
     case google = "Google"
     case microsoft = "Microsoft"
     case apple = "Apple"
+    case oauth2 = "Custom OAuth2"
 }
 
 //sourcery: AutoMockable

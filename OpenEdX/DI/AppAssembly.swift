@@ -115,6 +115,12 @@ class AppAssembly: Assembly {
         
         container.register(WhatsNewRouter.self) { r in
             r.resolve(Router.self)!
+        container.register(Config.self) { _ in
+            Config(
+                baseURL: BuildConfiguration.shared.baseURL,
+                oAuthClientId: BuildConfiguration.shared.clientId,
+                webLogin: BuildConfiguration.shared.webLogin
+            )
         }.inObjectScope(.container)
         
         container.register(ConfigProtocol.self) { _ in

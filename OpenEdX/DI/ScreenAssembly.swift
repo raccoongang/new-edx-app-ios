@@ -57,6 +57,7 @@ class ScreenAssembly: Assembly {
                 router: r.resolve(AuthorizationRouter.self)!,
                 config: r.resolve(ConfigProtocol.self)!,
                 analytics: r.resolve(AuthorizationAnalytics.self)!,
+                config: r.resolve(Config.self)!,
                 validator: r.resolve(Validator.self)!
             )
         }

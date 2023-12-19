@@ -81,6 +81,7 @@ public enum CoreAssets {
   public static let rotateDevice = ImageAsset(name: "rotateDevice")
   public static let sub = ImageAsset(name: "sub")
   public static let alarm = ImageAsset(name: "alarm")
+  public static let appLogo = ImageAsset(name: "appLogo")
   public static let arrowLeft = ImageAsset(name: "arrowLeft")
   public static let arrowRight16 = ImageAsset(name: "arrowRight16")
   public static let certificate = ImageAsset(name: "certificate")

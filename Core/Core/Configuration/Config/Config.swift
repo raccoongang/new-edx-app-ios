@@ -11,6 +11,7 @@ public protocol ConfigProtocol {
     var baseURL: URL { get }
     var oAuthClientId: String { get }
     var tokenType: TokenType { get }
+    var webLogin: Bool { get }
     var feedbackEmail: String { get }
     var appStoreLink: String { get }
     var faq: URL? { get }
@@ -34,6 +35,7 @@ private enum ConfigKeys: String {
     case baseURL = "API_HOST_URL"
     case oAuthClientID = "OAUTH_CLIENT_ID"
     case tokenType = "TOKEN_TYPE"
+    case webLogin = "false"
     case feedbackEmailAddress = "FEEDBACK_EMAIL_ADDRESS"
     case environmentDisplayName = "ENVIRONMENT_DISPLAY_NAME"
     case platformName = "PLATFORM_NAME"
@@ -122,6 +124,10 @@ extension Config: ConfigProtocol {
               let tokenType = TokenType(rawValue: tokenTypeValue)
         else { return .jwt }
         return tokenType
+    }
+    
+    public var webLogin: Bool {
+        return Bool(ConfigKeys.webLogin.rawValue) ?? false
     }
     
     public var feedbackEmail: String {

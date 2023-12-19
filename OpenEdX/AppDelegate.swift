@@ -16,6 +16,7 @@ import GoogleSignIn
 import FacebookCore
 import MSAL
 import Theme
+import OAuthSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -69,6 +70,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ app: UIApplication,
         open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]
     ) -> Bool {
+        if url.host == "oauth2Callback" {
+          // TODO: Update to better match the other OAuth redirect behaviors
+          OAuthSwift.handle(url: url)
+        }
         if let config = Container.shared.resolve(ConfigProtocol.self) {
             if config.facebook.enabled {
                 ApplicationDelegate.shared.application(
@@ -89,6 +94,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
                 )
             }
+        return true
+    }
+    
+    func application(
+        _ application: UIApplication,
+        supportedInterfaceOrientationsFor window: UIWindow?
+    ) -> UIInterfaceOrientationMask {
+        //Allows external windows, such as WebView Player, to work in any orientation
+        if window == self.window {
+            return UIDevice.current.userInterfaceIdiom == .phone ? orientationLock : .all
+        } else {
+            return UIDevice.current.userInterfaceIdiom == .phone ? .allButUpsideDown : .all
         }
 
         return false
