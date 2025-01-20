@@ -379,7 +379,7 @@ public struct CourseBlockEncodedVideo: Sendable {
     public func video(downloadQuality: DownloadQuality) -> CourseBlockVideo? {
         switch downloadQuality {
         case .auto:
-            [mobileLow, mobileHigh, desktopMP4, fallback, hls]
+            [hls, mobileLow, mobileHigh, desktopMP4, fallback]
                 .first(where: { $0?.isDownloadable == true })?
                 .flatMap { $0 }
         case .high:
@@ -400,44 +400,50 @@ public struct CourseBlockEncodedVideo: Sendable {
     public func video(streamingQuality: StreamingQuality) -> CourseBlockVideo? {
         switch streamingQuality {
         case .auto:
-            [mobileLow, mobileHigh, desktopMP4, fallback, hls]
+            [hls, mobileLow, mobileHigh, desktopMP4, fallback, youtube]
                 .compactMap { $0 }
                 .sorted(by: { ($0?.streamPriority ?? 0) < ($1?.streamPriority ?? 0) })
                 .first?
                 .flatMap { $0 }
         case .high:
-            [desktopMP4, mobileHigh, mobileLow, fallback, hls]
+            [desktopMP4, mobileHigh, mobileLow, hls, youtube, fallback]
                 .compactMap { $0 }
                 .first?
                 .flatMap { $0 }
         case .medium:
-            [mobileHigh, mobileLow, desktopMP4, fallback, hls]
+            [mobileHigh, mobileLow, desktopMP4, hls, youtube, fallback]
                 .compactMap { $0 }
                 .first?
                 .flatMap { $0 }
         case .low:
-            [mobileLow, mobileHigh, desktopMP4, fallback, hls]
+            [mobileLow, mobileHigh, desktopMP4, hls, youtube, fallback]
                 .compactMap { $0 }
                 .first(where: { $0?.isDownloadable == true })?
                 .flatMap { $0 }
         }
     }
+}
 
-    public var youtubeVideoUrl: String? {
-        youtube?.url
-    }
-
+public enum CourseBlockVideoEncoding: Sendable {
+    case mobileLow, mobileHigh, desktopMP4, fallback, hls, youtube
 }
 
 public struct CourseBlockVideo: Equatable, Sendable {
     public let url: String?
     public let fileSize: Int?
     public let streamPriority: Int?
+    public let type: CourseBlockVideoEncoding?
 
-    public init(url: String?, fileSize: Int?, streamPriority: Int?) {
+    public init(
+        url: String?,
+        fileSize: Int?,
+        streamPriority: Int?,
+        type: CourseBlockVideoEncoding?
+    ) {
         self.url = url
         self.fileSize = fileSize
         self.streamPriority = streamPriority
+        self.type = type
     }
 
     public var isVideoURL: Bool {

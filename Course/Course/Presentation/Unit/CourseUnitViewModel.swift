@@ -41,15 +41,15 @@ public enum LessonType: Equatable {
         case .discussion:
             return .discussion(block.topicId ?? "", block.id, block.displayName)
         case .video:
-            if block.encodedVideo?.youtubeVideoUrl != nil,
-                let encodedVideo = block.encodedVideo?.video(streamingQuality: streamingQuality)?.url {
-                return .video(videoUrl: encodedVideo, blockId: block.id)
-            } else if let youtubeVideoUrl = block.encodedVideo?.youtubeVideoUrl {
-                return .youtube(youtubeVideoUrl: youtubeVideoUrl, blockId: block.id)
-            } else if let encodedVideo = block.encodedVideo?.video(streamingQuality: streamingQuality)?.url {
-                return .video(videoUrl: encodedVideo, blockId: block.id)
-            } else if let encodedVideo = block.encodedVideo?.video(downloadQuality: DownloadQuality.auto)?.url {
-                   return .video(videoUrl: encodedVideo, blockId: block.id)
+            if let encodedVideo = block.encodedVideo?.video(streamingQuality: streamingQuality),
+               let videoURL = encodedVideo.url {
+                if encodedVideo.type == .youtube {
+                    return .youtube(youtubeVideoUrl: videoURL, blockId: block.id)
+                } else if encodedVideo.isVideoURL {
+                    return .video(videoUrl: videoURL, blockId: block.id)
+                } else {
+                    return .unknown(block.studentUrl)
+                }
             } else {
                 return .unknown(block.studentUrl)
             }

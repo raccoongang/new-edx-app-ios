@@ -319,7 +319,8 @@ final class DownloadManagerTests: XCTestCase {
                 fallback: CourseBlockVideo(
                     url: "https://test.com/video.mp4",
                     fileSize: videoSize,
-                    streamPriority: 1
+                    streamPriority: 1,
+                    type: .desktopMP4
                 ),
                 youtube: nil,
                 desktopMP4: nil,
